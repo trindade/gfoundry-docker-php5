@@ -1,16 +1,24 @@
 FROM php:5.6-apache
 
 RUN apt-get update \
+		  && apt-get install -y wget gnupg lsb-release    
+
+
+RUN export GCSFUSE_REPO="gcsfuse-$(lsb_release -sc)" \ 
+		&& echo "deb http://packages.cloud.google.com/apt $GCSFUSE_REPO main" | tee /etc/apt/sources.list.d/gcsfuse.list \ 
+		&& curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -  \ 
+		&& apt-get update \
 		  && apt-get install -y \
 		    libfreetype6-dev libjpeg62-turbo-dev libpng-dev libmcrypt-dev \
+		    gcsfuse \
 		    zip \
 		    unzip \
 		    vim \
 		    wget \
 		    curl \
 		    git \
-				tar \
-				file \
+		    tar \
+		    file \
 		    mysql-client \
 		    moreutils \
 		    dnsutils \
@@ -18,7 +26,7 @@ RUN apt-get update \
 		    libicu-dev \
 		    libmemcached-dev \
 		    g++ \
-				xz-utils \
+		    xz-utils \
 		    memcached libz-dev libmemcached-dev libmemcached11 libmemcachedutil2 build-essential \
 		    && pecl install memcached-2.2.0 \
 		    && echo extension=memcached.so >> /usr/local/etc/php/conf.d/memcached.ini \
