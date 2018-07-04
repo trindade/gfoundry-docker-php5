@@ -1,12 +1,12 @@
 FROM php:5.6-apache
 
 RUN apt-get update \
-		  && apt-get install -y wget gnupg lsb-release    
+		  && apt-get install -y wget gnupg lsb-release
 
 
-RUN export GCSFUSE_REPO="gcsfuse-$(lsb_release -sc)" \ 
-		&& echo "deb http://packages.cloud.google.com/apt $GCSFUSE_REPO main" | tee /etc/apt/sources.list.d/gcsfuse.list \ 
-		&& curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -  \ 
+RUN export GCSFUSE_REPO="gcsfuse-$(lsb_release -sc)" \
+		&& echo "deb http://packages.cloud.google.com/apt $GCSFUSE_REPO main" | tee /etc/apt/sources.list.d/gcsfuse.list \
+		&& curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add -  \
 		&& apt-get update \
 		  && apt-get install -y \
 		    libfreetype6-dev libjpeg62-turbo-dev libpng-dev libmcrypt-dev \
@@ -32,7 +32,7 @@ RUN export GCSFUSE_REPO="gcsfuse-$(lsb_release -sc)" \
 		    && echo extension=memcached.so >> /usr/local/etc/php/conf.d/memcached.ini \
 		    && pecl install memcache-2.2.7 \
 		    && echo extension=memcache.so >> /usr/local/etc/php/conf.d/memcache.ini \
-		    && docker-php-ext-install zip pdo_mysql mysqli gd iconv opcache
+		    && docker-php-ext-install zip pdo_mysql mysqli gd iconv opcache mcrypt
 
 
 # Install mcrypt
